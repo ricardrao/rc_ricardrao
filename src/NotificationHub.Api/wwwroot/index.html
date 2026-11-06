@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light"><title>Notification Hub</title>
+  <link rel="stylesheet" href="/console.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#overview"><span class="brand-mark">N</span><span>Notification<span class="brand-sub">HUB CONSOLE</span></span></a>
+    <div class="nav-caption" data-i18n="workspace"></div>
+    <nav id="navigation" aria-label="Main navigation"></nav>
+    <div class="sidebar-bottom"><span class="connection-dot"></span><span id="environment"></span><small data-i18n="reliableDelivery"></small></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb">Notification Hub <span>/</span> <span id="breadcrumb"></span></div>
+      <div class="top-actions"><span id="mode" class="badge neutral"></span><select id="language" aria-label="Language"><option value="zh-CN">&#20013;&#25991;</option><option value="en">English</option></select><a href="#settings" class="avatar" aria-label="Access settings">NH</a></div>
+    </header>
+    <main id="main" tabindex="-1"></main>
+    <div id="notice" class="notice" role="status" hidden></div>
+  </div>
+  <dialog id="dialog" aria-labelledby="dialog-title"><div class="dialog-header"><h2 id="dialog-title"></h2><button type="button" id="close-dialog" class="icon-button" aria-label="Close">&#215;</button></div><div id="dialog-content"></div></dialog>
+  <script type="module" src="/console.js"></script>
+</body></html>

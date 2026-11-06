@@ -1,0 +1,18 @@
+{
+  "invalid_request": "The request is invalid.",
+  "unauthorized": "Authentication is required.",
+  "forbidden": "You are not allowed to access this resource.",
+  "not_found": "The resource was not found.",
+  "conflict": "The request conflicts with the current resource state.",
+  "idempotency_conflict": "This idempotency key was already used with different content.",
+  "expired": "The notification has expired.",
+  "quota_exceeded": "The request or delivery quota has been exceeded. Retry later.",
+  "unavailable": "The service is temporarily unavailable.",
+  "unsafe_url": "The destination URL is not allowed.",
+  "invalid_mapping": "The operation definition or input mapping is invalid.",
+  "inactive": "The provider or connection is disabled.",
+  "unsafe_replay": "The safe replay period has ended. Verify the external result before creating a new notification.",
+  "internal_error": "An unexpected error occurred.",
+  "invalid_resolution": "Resolution must be fixed, acknowledged, or no_action.",
+  "success": "The request completed successfully."
+}

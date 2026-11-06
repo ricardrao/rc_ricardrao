@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Npgsql" Version="10.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.9.32" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Persistence/schema.sql" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

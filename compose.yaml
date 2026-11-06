@@ -1,0 +1,71 @@
+x-hub: &hub
+  build: .
+  environment: &hub-environment
+    ConnectionStrings__Postgres: Host=postgres;Database=notification_hub;Username=hub;Password=${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ConnectionStrings__Redis: redis:6379,abortConnect=false
+    Clients__0__Id: business-demo
+    Clients__0__Key: ${BUSINESS_API_KEY:?Set BUSINESS_API_KEY in .env}
+    Clients__0__Role: business
+    Clients__1__Id: provider-demo
+    Clients__1__Key: ${PROVIDER_API_KEY:?Set PROVIDER_API_KEY in .env}
+    Clients__1__Role: provider
+    Clients__2__Id: admin-demo
+    Clients__2__Key: ${ADMIN_API_KEY:?Set ADMIN_API_KEY in .env}
+    Clients__2__Role: admin
+    Hub__AllowedHosts__0: mock
+    Hub__AllowPrivateNetworks: "true"
+    Hub__TicketWebhookUrl: http://mock:8081/tickets
+    Hub__TicketWebhookSecret: ${TICKET_WEBHOOK_SECRET:?Set TICKET_WEBHOOK_SECRET in .env}
+  volumes:
+    - keys:/keys
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: hub
+      POSTGRES_DB: notification_hub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hub -d notification_hub"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports: ["127.0.0.1:6379:6379"]
+    volumes: ["redis:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  api:
+    <<: *hub
+    environment:
+      <<: *hub-environment
+      Hub__RunWorkers: "false"
+    ports: ["127.0.0.1:8080:8080"]
+  worker:
+    <<: *hub
+    environment:
+      <<: *hub-environment
+      Hub__RunWorkers: "true"
+  mock:
+    image: python:3.13-alpine
+    command: ["python", "/demo/mock_supplier.py"]
+    volumes: ["./examples:/demo:ro"]
+    ports: ["127.0.0.1:8081:8081"]
+
+volumes:
+  postgres:
+  redis:
+  keys:
